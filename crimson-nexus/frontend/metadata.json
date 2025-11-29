@@ -1,0 +1,8 @@
+{
+  "name": "Crimson Nexus",
+  "description": "A visually stunning, AI-powered healthcare ecosystem with blockchain integrity verification and role-based access.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
