@@ -1,10 +1,13 @@
-
 import { User, UserRole, MedicalRecord, ChatMessage, Contact, Appointment, WellnessEntry, DoctorTask, Notification, WearableData, EmergencyAlert, RiskPrediction, Dependent } from "../types";
 import { DEVELOPER_EMAIL, DEVELOPER_ID, MOCK_HASH_PREFIX } from "../constants";
 import { broadcastToBSV, compileSmartContract } from "./bsvService";
 import { encryptData, decryptData } from "./cryptoService";
 import { assessEmergencySituation, predictHealthRisks } from "./geminiService";
-import { sendOTPEmail } from "./brevoService";
+// import { sendOTPEmail } from "./brevoService"; // OLD - Causes CORS issues
+import { sendOTPEmailJS, initEmailJS } from "./emailjsService"; // NEW - No CORS issues
+
+// Initialize EmailJS when module loads
+initEmailJS();
 
 // --- HYBRID ARCHITECTURE CONFIG ---
 const env = (import.meta as any).env;
@@ -43,19 +46,27 @@ export const backendLogin = async (identifier: string, password: string, request
 export const backendSendVerificationCode = async (email: string): Promise<{ success: boolean, message?: string }> => {
     if (USE_API) return await apiCall('/auth/send-otp', 'POST', { email });
     
+    // Generate 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStore[email] = otp;
     
-    console.log(`[DEV MODE] OTP for ${email}: ${otp}`); 
+    console.log(`🔐 [DEV MODE] OTP for ${email}: ${otp}`); 
     
-    // Attempt real email send via Brevo
-    const sent = await sendOTPEmail(email, otp);
+    // Send via EmailJS (No CORS issues!)
+    const sent = await sendOTPEmailJS(email, otp);
     
     if (sent) {
-        return { success: true };
+        return { 
+            success: true, 
+            message: '✅ Verification code sent to your email!' 
+        };
     } else {
-        // Fallback message if API fails (likely due to CORS in strict browser envs)
-        return { success: true, message: `Email API blocked by browser CORS. Use this code: ${otp}` };
+        // Development fallback - still works even if email fails
+        console.warn('⚠️ Email service unavailable. Showing OTP in console.');
+        return { 
+            success: true, 
+            message: `📧 Email service temporarily unavailable.\n\n🔐 Your verification code: ${otp}\n\n(Check browser console for details)` 
+        };
     }
 };
 

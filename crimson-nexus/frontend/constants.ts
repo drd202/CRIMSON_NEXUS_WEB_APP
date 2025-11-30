@@ -17,6 +17,11 @@ const getEnv = (key: string) => {
 export const GEMINI_API_KEY = getEnv('VITE_GEMINI_API_KEY') || getEnv('GEMINI_API_KEY') || getEnv('API_KEY') || 'AIzaSyBmAHmfLN-gtdt4BP2Zf3FJoIZTO03CgR4'; 
 export const BREVO_API_KEY = getEnv('VITE_BREVO_API_KEY') || getEnv('BREVO_API_KEY') || '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';
 
+// EmailJS Configuration (Frontend-safe, no CORS issues)
+export const EMAILJS_PUBLIC_KEY = getEnv('VITE_EMAILJS_PUBLIC_KEY') || 'toIEfM1sxFTEEUrCU';
+export const EMAILJS_SERVICE_ID = getEnv('VITE_EMAILJS_SERVICE_ID') || 'service_vnnshuj';
+export const EMAILJS_TEMPLATE_ID = getEnv('VITE_EMAILJS_TEMPLATE_ID') || 'template_mthfvy3';
+
 // SMTP Credentials for Backend/Node use
 export const SMTP_HOST = "smtp-relay.brevo.com";
 export const SMTP_PORT = 587;

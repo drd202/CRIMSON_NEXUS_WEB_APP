@@ -11,6 +11,7 @@ import { AITools } from './components/AITools';
 import { DoctorWorkspace } from './components/DoctorWorkspace';
 import { EmergencyMode } from './components/EmergencyMode';
 import { exportDatabase, importDatabase, resetDatabase, backendUpdateUser } from './services/mockBackend';
+import { initEmailJS } from './services/emailjsService'; // NEW: EmailJS initialization
 import { Moon, Sun, Monitor, Shield, Key, Bell, Lock, Database, Download, Upload, Trash2, AlertCircle, Loader2, Globe } from 'lucide-react';
 import JSZip from 'jszip';
 
@@ -32,6 +33,11 @@ const App = () => {
   // Missing Info State
   const [showMissingInfoModal, setShowMissingInfoModal] = useState(false);
   const [missingCountry, setMissingCountry] = useState('United States');
+
+  // NEW: Initialize EmailJS when app starts
+  useEffect(() => {
+    initEmailJS();
+  }, []);
 
   useEffect(() => {
     if (isDarkMode) { document.documentElement.classList.add('dark'); localStorage.setItem('theme', 'dark'); } 
