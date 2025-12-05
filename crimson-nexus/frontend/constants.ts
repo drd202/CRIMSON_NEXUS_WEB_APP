@@ -14,7 +14,7 @@ const getEnv = (key: string) => {
 };
 
 // API Keys from Environment or Fallback
-export const GEMINI_API_KEY = getEnv('VITE_GEMINI_API_KEY') || getEnv('GEMINI_API_KEY') || getEnv('API_KEY') || 'AIzaSyBmAHmfLN-gtdt4BP2Zf3FJoIZTO03CgR4'; 
+export const GEMINI_API_KEY = getEnv('VITE_GEMINI_API_KEY') || getEnv('GEMINI_API_KEY') || getEnv('API_KEY') || 'AIzaSyDbTsxvCULM0AUtX_aBwJv1IqAfwj3O-nU'; 
 export const BREVO_API_KEY = getEnv('VITE_BREVO_API_KEY') || getEnv('BREVO_API_KEY') || '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';
 
 // EmailJS Configuration (Frontend-safe, no CORS issues)
